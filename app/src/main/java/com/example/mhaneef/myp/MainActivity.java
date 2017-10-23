@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 PContract.PEntry.COLUMN_NAME_A,
                 PContract.PEntry.COLUMN_NAME_M,
                 PContract.PEntry.COLUMN_NAME_I,
-                PContract.PEntry.COLUMN_NAME_MODIFIED, 
+                PContract.PEntry.COLUMN_NAME_MODIFIED,
         };
         // Filter results WHERE "title" = 'My Title'
         String selection = PContract.PEntry.COLUMN_NAME_F + " = ?";
