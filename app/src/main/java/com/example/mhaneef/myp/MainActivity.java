@@ -11,13 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.example.mhaneef.myp.db.PContract;
+import com.example.mhaneef.myp.db.PDbHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public P loadStatusofP(){
-        p = new P(0,0,0,0,0);
+        return mDbHelper.getPFromDB();
+/*        p = new P(0,0,0,0,0);
         // Gets the data repository in write mode
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        if(count == 0){
+     *//*   if(count == 0){
             db = mDbHelper.getWritableDatabase();
 
             // Create a new map of values, where column names are the keys
@@ -108,17 +106,17 @@ public class MainActivity extends AppCompatActivity {
             values.put(PContract.PEntry.COLUMN_NAME_I, 0);
             values.put(PContract.PEntry.COLUMN_NAME_MODIFIED, 0);
 
-
             // Insert the new row, returning the primary key value of the new row
             long newRowId = db.insert(PContract.PEntry.TABLE_NAME, null, values);
-        }
+        }*//*
 
-        return p ;
+        return p ;*/
     }
 
     public void saveStatusofP(P p){
         //save to DB;
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int db = mDbHelper.saveStatusOfP(p);
+        /*getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(PContract.PEntry.COLUMN_NAME_F, p.getF());
         values.put(PContract.PEntry.COLUMN_NAME_Z, p.getZ());
@@ -131,10 +129,12 @@ public class MainActivity extends AppCompatActivity {
                 PContract.PEntry.TABLE_NAME,
                 values,
                 selection,
-                selectionArgs);
+                selectionArgs);*/
 
         DisplayViews(p);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

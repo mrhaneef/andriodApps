@@ -1,4 +1,4 @@
-package com.example.mhaneef.myp;
+package com.example.mhaneef.myp.db;
 
 import android.provider.BaseColumns;
 
@@ -23,7 +23,7 @@ public class PContract {
 
 
     public static class HistoryEntry implements BaseColumns {
-        public static final String TABLE_NAME = "P";
+        public static final String TABLE_NAME = "PHistory";
         public static final String COLUMN_NAME_F = "F";
         public static final String COLUMN_NAME_Z = "Z";
         public static final String COLUMN_NAME_A = "A";
