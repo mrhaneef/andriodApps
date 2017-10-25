@@ -9,11 +9,11 @@ import java.util.Arrays;
  */
 
 public class P {
-    private int f;
-    private int z;
-    private int a;
-    private int m;
-    private int i;
+    public int f;
+    public int z;
+    public int a;
+    public int m;
+    public int i;
 
     public P()
     {}
