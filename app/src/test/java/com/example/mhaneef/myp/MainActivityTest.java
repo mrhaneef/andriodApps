@@ -1,8 +1,8 @@
 package com.example.mhaneef.myp;
 
-import org.junit.Test;
+import com.example.mhaneef.myp.data.P;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Created by mhaneef on 10/20/2017.

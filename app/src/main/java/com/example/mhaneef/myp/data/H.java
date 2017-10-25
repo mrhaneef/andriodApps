@@ -1,4 +1,4 @@
-package com.example.mhaneef.myp;
+package com.example.mhaneef.myp.data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,18 +8,20 @@ import java.util.Arrays;
  * Created by mhaneef on 10/16/2017.
  */
 
-public class P {
+public class H {
     private int f;
     private int z;
     private int a;
     private int m;
     private int i;
+    private  String columnChangedName;
+    private String modifiedTime;
 
-    public P()
+    public H()
     {}
 
 
-    public P (int f, int z, int a, int m, int i){
+    public H(int f, int z, int a, int m, int i){
         this.f=f;this.z=z;this.a=a;this.m=m;this.i=i;
     }
 
@@ -68,6 +70,21 @@ public class P {
         this.i = i;
     }
 
+    public String getColumnChangedName() {
+        return columnChangedName;
+    }
+
+    public void setColumnChangedName(String columnChangedName) {
+        this.columnChangedName = columnChangedName;
+    }
+
+    public String getModifiedTime() {
+        return modifiedTime;
+    }
+
+    public void setModifiedTime(String modifiedTime) {
+        this.modifiedTime = modifiedTime;
+    }
 
     public String getInYears(){
         String years = "";

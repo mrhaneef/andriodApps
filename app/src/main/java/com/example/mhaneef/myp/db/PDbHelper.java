@@ -5,9 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.Settings;
+import android.support.constraint.solver.ArrayLinkedVariables;
 
-import com.example.mhaneef.myp.P;
-import com.example.mhaneef.myp.db.PContract;
+import com.example.mhaneef.myp.data.H;
+import com.example.mhaneef.myp.data.P;
+
+import java.util.ArrayList;
 
 
 /**
@@ -16,7 +20,7 @@ import com.example.mhaneef.myp.db.PContract;
 
 public class PDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Precords.db";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + PContract.PEntry.TABLE_NAME + " (" +
@@ -37,7 +41,7 @@ public class PDbHelper extends SQLiteOpenHelper {
                     PContract.HistoryEntry.COLUMN_NAME_M + " INTEGER," +
                     PContract.HistoryEntry.COLUMN_NAME_I + " INTEGER," +
                     PContract.HistoryEntry.COLUMN_NAME_CHANNGED + " TEXT," +
-                    PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " TEXT)";
+                    PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " timestamp not null default current_timestamp )";
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + PContract.PEntry.TABLE_NAME;
@@ -58,10 +62,60 @@ public class PDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        //db.execSQL(SQL_DELETE_ENTRIES);
-        //onCreate(db);
+        db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);
     }
 
+    public ArrayList<H> getHistoryFromDB()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                PContract.HistoryEntry._ID,
+                PContract.HistoryEntry.COLUMN_NAME_F,
+                PContract.HistoryEntry.COLUMN_NAME_Z,
+                PContract.HistoryEntry.COLUMN_NAME_A,
+                PContract.HistoryEntry.COLUMN_NAME_M,
+                PContract.HistoryEntry.COLUMN_NAME_I,
+                PContract.HistoryEntry.COLUMN_NAME_CHANNGED,
+                PContract.HistoryEntry.COLUMN_NAME_MODIFIED,
+        };
+        // Filter results WHERE "title" = 'My Title'
+        String selection = PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " < ?";
+        String[] selectionArgs = { "2010-05-28 16:20:55" };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " DESC";
+        Cursor cursor = db.query(
+                PContract.HistoryEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        //List itemIds = new ArrayList<>();
+        long itemId = 0;
+        int count = cursor.getCount();
+        H h;
+        ArrayList<H> listH = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            h = new H();
+            itemId = cursor.getLong(cursor.getColumnIndexOrThrow(PContract.PEntry._ID));
+            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_F)));
+            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_Z)));
+            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_A)));
+            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_M)));
+            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_I)));
+            h.setModifiedTime(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_MODIFIED)));
+            h.setModifiedTime(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_CHANNGED)));
+            listH.add(h);
+        }
+        cursor.close();
+        return listH;
+    }
 
     public P getPFromDB()
     {
@@ -145,6 +199,22 @@ public class PDbHelper extends SQLiteOpenHelper {
                 selection,
                 selectionArgs);
         return count;
+    }
+
+    public int saveHistory(P p, String colName)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PContract.PEntry.COLUMN_NAME_F, p.getF());
+        values.put(PContract.PEntry.COLUMN_NAME_Z, p.getZ());
+        values.put(PContract.PEntry.COLUMN_NAME_A, p.getA());
+        values.put(PContract.PEntry.COLUMN_NAME_M, p.getM());
+        values.put(PContract.PEntry.COLUMN_NAME_I, p.getI());
+        values.put(PContract.HistoryEntry.COLUMN_NAME_CHANNGED, colName);
+
+        db.insert(PContract.HistoryEntry.TABLE_NAME,null,values);
+
+        return 0;
     }
 
 
