@@ -62,8 +62,12 @@ public class PDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(SQL_DELETE_ENTRIES);
+        //db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
+    }
+
+    public void setSqlDeleteHistoryOlderThen30Dya(int days){
+
     }
 
     public ArrayList<H> getHistoryFromDB()
@@ -96,6 +100,7 @@ public class PDbHelper extends SQLiteOpenHelper {
                 sortOrder                                 // The sort order
         );
 
+
         //List itemIds = new ArrayList<>();
         long itemId = 0;
         int count = cursor.getCount();
@@ -104,13 +109,14 @@ public class PDbHelper extends SQLiteOpenHelper {
         while(cursor.moveToNext()) {
             h = new H();
             itemId = cursor.getLong(cursor.getColumnIndexOrThrow(PContract.PEntry._ID));
+            h.ID = itemId;
             h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_F)));
-            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_Z)));
-            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_A)));
-            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_M)));
-            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_I)));
+            h.setZ((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_Z)));
+            h.setA((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_A)));
+            h.setM((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_M)));
+            h.setI((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_I)));
+            h.setColumnChangedName(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_CHANNGED)));
             h.setModifiedTime(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_MODIFIED)));
-            h.setModifiedTime(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_CHANNGED)));
             listH.add(h);
         }
         cursor.close();
