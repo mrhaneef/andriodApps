@@ -244,74 +244,6 @@ public class HistoryActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
-
-   /* public void onClickF(View view){
-        TextView input = (TextView) findViewById(R.id.f_textView);
-        p.setF(p.getF() + 1);
-        saveStatusofP(p,"F");
-    }
-
-    public void onClickZ(View view){
-        TextView input = (TextView) findViewById(R.id.z_textView);
-        p.setZ(p.getZ() + 1);
-        saveStatusofP(p,"Z");
-    }
-
-    public void onClickA(View view){
-        TextView input = (TextView) findViewById(R.id.a_textView);
-        p.setA(p.getA() + 1);
-        saveStatusofP(p,"A");
-    }
-
-    public void onClickM(View view){
-        TextView input = (TextView) findViewById(R.id.m_textView);
-        p.setM(p.getM() + 1);
-        saveStatusofP(p,"M");
-    }
-
-    public void onClickI(View view){
-        TextView input = (TextView) findViewById(R.id.i_textView);
-        p.setI(p.getI() + 1);
-        saveStatusofP(p,"I");
-    }
-
-    public void DisplayViews(P p){
-        TextView input = (TextView) findViewById(R.id.days_textView);
-        input.setText(p.getInDays());
-        input = (TextView) findViewById(R.id.month_textView);
-        input.setText(p.getInMonth());
-        input = (TextView) findViewById(R.id.Year_textView);
-        input.setText(p.getInYears());
-
-        input = (TextView) findViewById(R.id.f_textView);
-        input.setText(p.getF()-Integer.parseInt(p.getInDays())  +"");
-        input = (TextView) findViewById(R.id.z_textView);
-        input.setText(p.getZ()-Integer.parseInt(p.getInDays())  +"");
-        input = (TextView) findViewById(R.id.a_textView);
-        input.setText(p.getA()-Integer.parseInt(p.getInDays())  +"");
-        input = (TextView) findViewById(R.id.m_textView);
-        input.setText(p.getM()-Integer.parseInt(p.getInDays())  +"");
-        input = (TextView) findViewById(R.id.i_textView);
-        input.setText(p.getI()-Integer.parseInt(p.getInDays())  +"");
-    }
-    */
-
 
 
     @Override
@@ -328,6 +260,7 @@ public class HistoryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 //newGame();
+
                 return true;
             case R.id.action_history:
                 setContentView(R.layout.activity_history);

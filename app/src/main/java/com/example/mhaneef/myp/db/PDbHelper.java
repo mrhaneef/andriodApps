@@ -48,6 +48,9 @@ public class PDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_HISTORY_ENTRIES =
             "DROP TABLE IF EXISTS " + PContract.HistoryEntry.TABLE_NAME;
 
+    private static final String SQL_DELETE30DAYS = "DELETE FROM " + PContract.HistoryEntry.TABLE_NAME   +
+            " WHERE "+ PContract.HistoryEntry.COLUMN_NAME_MODIFIED ;
+
     public PDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -66,8 +69,10 @@ public class PDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void setSqlDeleteHistoryOlderThen30Dya(int days){
-
+    public void deleteHistoryOlderThen30Dya(int days){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String d = " <= date('now','-"+days+" day')";
+        db.execSQL(SQL_DELETE30DAYS+d);
     }
 
     public ArrayList<H> getHistoryFromDB()
@@ -85,7 +90,8 @@ public class PDbHelper extends SQLiteOpenHelper {
         };
         // Filter results WHERE "title" = 'My Title'
         String selection = PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " < ?";
-        String[] selectionArgs = { "2010-05-28 16:20:55" };
+        //String[] selectionArgs = { "2010-10-28 16:20:55" };
+        String[] selectionArgs = {"date('now','-30 days')"};
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =

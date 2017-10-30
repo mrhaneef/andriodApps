@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public P loadStatusofP(){
+        mDbHelper.deleteHistoryOlderThen30Dya(30);
         return mDbHelper.getPFromDB();
     }
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         int db = mDbHelper.saveStatusOfP(p);
         mDbHelper.saveHistory(p, colName);
         mDbHelper.getHistoryFromDB();
+
         DisplayViews(p);
     }
 
