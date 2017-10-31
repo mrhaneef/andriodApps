@@ -2,6 +2,7 @@ package com.example.mhaneef.myp.data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.util.Arrays;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Arrays;
 
 public class H extends P {
     public   String columnChangedName;
-    public String modifiedTime;
+    public Long modifiedTime;
 
     public H()
     {}
@@ -42,11 +43,11 @@ public class H extends P {
         this.columnChangedName = columnChangedName;
     }
 
-    public String getModifiedTime() {
+    public Long getModifiedTime() {
         return modifiedTime;
     }
 
-    public void setModifiedTime(String modifiedTime) {
+    public void setModifiedTime(Long modifiedTime) {
         this.modifiedTime = modifiedTime;
     }
 

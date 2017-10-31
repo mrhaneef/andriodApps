@@ -90,6 +90,13 @@ public class P {
         return day = prod + "";
     }
 
+    public String getTimeAfterSubstractions(int fromthisTime){
+        String result = "";
+        result = fromthisTime-Integer.parseInt(getInDays())  + "";
+        return result;
+    }
+
+
     private int[] getAllValuesArray(){
         int array[]={getF(),getZ(),getA(),getM(),getI()};
         Arrays.sort(array);

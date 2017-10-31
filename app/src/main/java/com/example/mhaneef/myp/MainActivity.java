@@ -120,15 +120,15 @@ public class MainActivity extends AppCompatActivity {
         input.setText(p.getInYears());
 
         input = (TextView) findViewById(R.id.f_textView);
-        input.setText(p.getF()-Integer.parseInt(p.getInDays())  +"");
+        input.setText(p.getTimeAfterSubstractions(p.getF()));
         input = (TextView) findViewById(R.id.z_textView);
-        input.setText(p.getZ()-Integer.parseInt(p.getInDays())  +"");
+        input.setText(p.getTimeAfterSubstractions(p.getZ()));
         input = (TextView) findViewById(R.id.a_textView);
-        input.setText(p.getA()-Integer.parseInt(p.getInDays())  +"");
+        input.setText(p.getTimeAfterSubstractions(p.getA()));
         input = (TextView) findViewById(R.id.m_textView);
-        input.setText(p.getM()-Integer.parseInt(p.getInDays())  +"");
+        input.setText(p.getTimeAfterSubstractions(p.getM()));
         input = (TextView) findViewById(R.id.i_textView);
-        input.setText(p.getI()-Integer.parseInt(p.getInDays())  +"");
+        input.setText(p.getTimeAfterSubstractions(p.getI()));
     }
 
     public void onClickReset(P p)
