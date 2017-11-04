@@ -2,9 +2,10 @@ package com.example.mhaneef.myp;
 
 import org.junit.Test;
 
-import java.sql.Timestamp;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static org.junit.Assert.*;
 
@@ -22,9 +23,9 @@ public class ExampleUnitTest {
     @Test
     public void DateFormatTest(){
         String d = "2017-10-31 14:53:26";
-        //Timestamp t = new Timestamp(d);
+        Timestamp ts = Timestamp.valueOf(d);
         //Date currentTime_1 = new Date(d);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        //String dateString = formatter.format(currentTime_1);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a", Locale.getDefault());
+        String dateString = formatter.format(ts);
     }
 }

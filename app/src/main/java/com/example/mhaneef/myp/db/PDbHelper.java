@@ -11,6 +11,7 @@ import android.support.constraint.solver.ArrayLinkedVariables;
 import com.example.mhaneef.myp.data.H;
 import com.example.mhaneef.myp.data.P;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
@@ -122,7 +123,7 @@ public class PDbHelper extends SQLiteOpenHelper {
             h.setM((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_M)));
             h.setI((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_I)));
             h.setColumnChangedName(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_CHANNGED)));
-            h.setModifiedTime(cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_MODIFIED)));
+            h.setModifiedTime(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_MODIFIED))));
             listH.add(h);
         }
         cursor.close();

@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class H extends P {
     public   String columnChangedName;
-    public Long modifiedTime;
+    public   Timestamp  modifiedTime;
 
     public H()
     {}
@@ -43,11 +43,11 @@ public class H extends P {
         this.columnChangedName = columnChangedName;
     }
 
-    public Long getModifiedTime() {
+    public Timestamp getModifiedTime() {
         return modifiedTime;
     }
 
-    public void setModifiedTime(Long modifiedTime) {
+    public void setModifiedTime(Timestamp modifiedTime) {
         this.modifiedTime = modifiedTime;
     }
 

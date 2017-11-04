@@ -92,7 +92,13 @@ public class P {
 
     public String getTimeAfterSubstractions(int fromthisTime){
         String result = "";
-        result = fromthisTime-Integer.parseInt(getInDays())  + "";
+        result = fromthisTime-Integer.parseInt(getInDays())==0?"0":fromthisTime-Integer.parseInt(getInDays())  + "";;
+        return result;
+    }
+
+    public String getTimeAfterSubstractionsPlan(int fromthisTime){
+        String result = "";
+        result = fromthisTime-Integer.parseInt(getInDays())==0?"0":fromthisTime-Integer.parseInt(getInDays())  + "";
         return result;
     }
 

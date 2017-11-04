@@ -23,6 +23,8 @@ import com.example.mhaneef.myp.db.PDbHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -41,14 +43,14 @@ public class HistoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
+         //   @Override
+         //   public void onClick(View view) {
+         //       Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+         //               .setAction("Action", null).show();
+          //  }
+        //});
 
 
 
@@ -88,42 +90,43 @@ public class HistoryActivity extends AppCompatActivity {
             tr.addView(dc);  // Adding textView to tablerow.
 
             f = new TextView(this);
-            f.setText(h.getTimeAfterSubstractions(h.getF()));
+            f.setText(h.getTimeAfterSubstractionsPlan(h.getF()));
             if(h.getColumnChangedName().equalsIgnoreCase( "F"))
                 f.setBackgroundColor(Color.YELLOW);
             f.setPadding(5, 5, 5, 5);
             tr.addView(f);  // Adding textView to tablerow.
 
             z = new TextView(this);
-            z.setText(h.getTimeAfterSubstractions(h.getZ()));
+            z.setText(h.getTimeAfterSubstractionsPlan(h.getZ()));
             if(h.getColumnChangedName().equalsIgnoreCase( "Z"))
                 z.setBackgroundColor(Color.YELLOW);
             z.setPadding(5, 5, 5, 5);
             tr.addView(z);  // Adding textView to tablerow.
 
             TextView a = new TextView(this);
-            a.setText(h.getTimeAfterSubstractions(h.getA()));
+            a.setText(h.getTimeAfterSubstractionsPlan(h.getA()));
             if(h.getColumnChangedName().equalsIgnoreCase( "A"))
                 a.setBackgroundColor(Color.YELLOW);
             a.setPadding(5, 5, 5, 5);
             tr.addView(a);  // Adding textView to tablerow.
 
             TextView m = new TextView(this);
-            m.setText(h.getTimeAfterSubstractions(h.getM()));
+            m.setText(h.getTimeAfterSubstractionsPlan(h.getM()));
             if(h.getColumnChangedName() .equalsIgnoreCase( "M"))
                 m.setBackgroundColor(Color.YELLOW);
             m.setPadding(5, 5, 5, 5);
             tr.addView(m);  // Adding textView to tablerow.
 
             TextView i = new TextView(this);
-            i.setText(h.getTimeAfterSubstractions(h.getI()));
+            i.setText(h.getTimeAfterSubstractionsPlan(h.getI()) );
             if(h.getColumnChangedName().equalsIgnoreCase(  "I"))
                 i.setBackgroundColor(Color.YELLOW);
             i.setPadding(5, 5, 5, 5);
             tr.addView(i);  // Adding textView to tablerow.
 
             TextView t = new TextView(this);
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd hh:mm aa",Locale.getDefault());
+            formatter.setTimeZone(TimeZone.getDefault());
             String dateString = formatter.format(h.getModifiedTime());
 
             t.setText(dateString);
