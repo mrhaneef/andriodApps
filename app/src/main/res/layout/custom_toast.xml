@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toast_custom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_textview" >
+
+
+    <TextView
+        android:id="@+id/tvtoast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:width="600dp"
+        android:height="600dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingRight="6dp"
+        android:paddingTop="6dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+</LinearLayout>
