@@ -1,15 +1,27 @@
 package com.example.mhaneef.myp;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mhaneef.myp.data.P;
 import com.example.mhaneef.myp.db.PDbHelper;
@@ -85,30 +97,35 @@ public class MainActivity extends AppCompatActivity {
         TextView input = (TextView) findViewById(R.id.f_textView);
         p.setF(p.getF() + 1);
         saveStatusofP(p,"F");
+        displayToast("Increase "+ " Fjr " + "Salah");
     }
 
     public void onClickZ(View view){
         TextView input = (TextView) findViewById(R.id.z_textView);
         p.setZ(p.getZ() + 1);
         saveStatusofP(p,"Z");
+        displayToast("Increase "+ " Zhr " + "Salah");
     }
 
     public void onClickA(View view){
         TextView input = (TextView) findViewById(R.id.a_textView);
         p.setA(p.getA() + 1);
         saveStatusofP(p,"A");
+        displayToast("Increase "+ " Asr " + "Salah");
     }
 
     public void onClickM(View view){
         TextView input = (TextView) findViewById(R.id.m_textView);
         p.setM(p.getM() + 1);
         saveStatusofP(p,"M");
+        displayToast("Increase "+ " Magrib " + "Salah");
     }
 
     public void onClickI(View view){
         TextView input = (TextView) findViewById(R.id.i_textView);
         p.setI(p.getI() + 1);
         saveStatusofP(p,"I");
+        displayToast("Increated "+ " Isha " + "Salah");
     }
 
     public void DisplayViews(P p){
@@ -129,7 +146,58 @@ public class MainActivity extends AppCompatActivity {
         input.setText(p.getTimeAfterSubstractions(p.getM()));
         input = (TextView) findViewById(R.id.i_textView);
         input.setText(p.getTimeAfterSubstractions(p.getI()));
+
+
     }
+
+    public void displayToast(String msg)
+    {
+
+
+
+        // Inflating the layout for the toast
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) findViewById(R.id.toast_custom));
+
+// Typecasting and finding the view in the inflated layout
+        TextView text = (TextView) layout.findViewById(R.id.tvtoast);
+
+// Setting the text to be displayed in the Toast
+        text.setText(msg);
+        text.setWidth(600);
+        text.setHeight(600);
+
+
+// Setting the color of the Text to be displayed in the toast
+        text.setTextColor(Color.rgb(0, 132, 219));
+
+// Creating the Toast
+        Toast toast = new Toast(getApplicationContext());
+
+// Setting the position of the Toast to centre
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+
+// Setting the duration of the Toast
+        toast.setDuration(Toast.LENGTH_LONG);
+
+// Setting the Inflated Layout to the Toast
+        toast.setView(layout);
+
+// Showing the Toast
+        toast.show();
+
+
+
+
+        msg= "              " + msg + "                     ";
+        //Toast toast = Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG);
+        //toast.setGravity(Gravity.CENTER, 0, 0);
+
+        //toast.show();
+
+    }
+
 
     public void onClickReset(P p)
     {
