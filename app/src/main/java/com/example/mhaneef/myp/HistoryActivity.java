@@ -281,6 +281,7 @@ public class HistoryActivity extends AppCompatActivity {
             switch (which){
                 case DialogInterface.BUTTON_POSITIVE:
                     //Yes button clicked
+
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:

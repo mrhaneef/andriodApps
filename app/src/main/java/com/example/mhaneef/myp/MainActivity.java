@@ -80,37 +80,32 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickF(View view){
         TextView input = (TextView) findViewById(R.id.f_textView);
-        displayToast("Increase "+ " Fjr " + "Salah",Toast.LENGTH_SHORT);
         p.setF(p.getF() + 1);
-        saveStatusofP(p,"F");
+        displayDialogAndSave(view,p,"F");
     }
 
     public void onClickZ(View view){
         TextView input = (TextView) findViewById(R.id.z_textView);
-        displayToast("Increase "+ " Zhr " + "Salah",Toast.LENGTH_SHORT);
         p.setZ(p.getZ() + 1);
-        saveStatusofP(p,"Z");
+        displayDialogAndSave(view,p,"Z");
     }
 
     public void onClickA(View view){
         TextView input = (TextView) findViewById(R.id.a_textView);
-        displayToast("Increase "+ " Asr " + "Salah",Toast.LENGTH_SHORT);
         p.setA(p.getA() + 1);
-        saveStatusofP(p,"A");
+        displayDialogAndSave(view,p,"A");
     }
 
     public void onClickM(View view){
         TextView input = (TextView) findViewById(R.id.m_textView);
-        displayToast("Increase "+ " Magrib " + "Salah",Toast.LENGTH_SHORT);
         p.setM(p.getM() + 1);
-        saveStatusofP(p,"M");
+        displayDialogAndSave(view,p,"M");
     }
 
     public void onClickI(View view){
         TextView input = (TextView) findViewById(R.id.i_textView);
-        displayToast("Increated "+ " Isha " + "Salah",Toast.LENGTH_SHORT);
         p.setI(p.getI() + 1);
-        saveStatusofP(p,"I");
+        displayDialogAndSave(view,p,"I");
     }
 
     public void DisplayViews(P p){
@@ -177,6 +172,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void displayDialogAndSave(View view, final P p, final String columName){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(view.getContext());
+        builder.setMessage("Increase "+  columName + " S ?").setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                saveStatusofP(p,columName);
+            }
+        }).setNegativeButton("No",  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //CODE HERE Cancel
+
+                    }
+        }).show();
+    }
+
+
+
     public void onClickReset(P p)
     {
         p.reset(0,0,0,0,0);
@@ -187,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         mDbHelper.close();
         super.onDestroy();
     }
+
 
 
     //Click on settings
