@@ -24,7 +24,7 @@ public class PDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Precords.db";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + PContract.PEntry.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + PContract.PEntry.TABLE_NAME + " (" +
                     PContract.PEntry._ID + " INTEGER PRIMARY KEY," +
                     PContract.PEntry.COLUMN_NAME_F + " INTEGER," +
                     PContract.PEntry.COLUMN_NAME_Z + " INTEGER," +
@@ -34,7 +34,7 @@ public class PDbHelper extends SQLiteOpenHelper {
                     PContract.PEntry.COLUMN_NAME_MODIFIED + " TEXT)";
 
     private static final String SQL_CREATE_HISTORY_ENTRIES =
-            "CREATE TABLE " + PContract.HistoryEntry.TABLE_NAME + " (" +
+            "CREATE TABLE IF NOT EXISTS " + PContract.HistoryEntry.TABLE_NAME + " (" +
                     PContract.HistoryEntry._ID + " INTEGER PRIMARY KEY," +
                     PContract.HistoryEntry.COLUMN_NAME_F + " INTEGER," +
                     PContract.HistoryEntry.COLUMN_NAME_Z + " INTEGER," +

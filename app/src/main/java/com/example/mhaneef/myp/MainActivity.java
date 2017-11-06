@@ -2,8 +2,10 @@ package com.example.mhaneef.myp;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mhaneef.myp.data.P;
+import com.example.mhaneef.myp.db.PContract;
 import com.example.mhaneef.myp.db.PDbHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,8 +50,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     public P loadStatusofP(){
-        mDbHelper.deleteHistoryOlderThen30Dya(30);
-        return mDbHelper.getPFromDB();
+        P p = new P(0,0,0,0,0);
+        try {
+            p = mDbHelper.getPFromDB();
+            mDbHelper.getHistoryFromDB();
+            mDbHelper.deleteHistoryOlderThen30Dya(30);
+        }catch (Exception e){
+            Log.i("ERROR",e.getMessage());
+        }
+        return p;
     }
 
     public void saveStatusofP(P p, String colName){
@@ -69,35 +80,35 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickF(View view){
         TextView input = (TextView) findViewById(R.id.f_textView);
-        displayToast("Increase "+ " Fjr " + "Salah");
+        displayToast("Increase "+ " Fjr " + "Salah",Toast.LENGTH_SHORT);
         p.setF(p.getF() + 1);
         saveStatusofP(p,"F");
     }
 
     public void onClickZ(View view){
         TextView input = (TextView) findViewById(R.id.z_textView);
-        displayToast("Increase "+ " Zhr " + "Salah");
+        displayToast("Increase "+ " Zhr " + "Salah",Toast.LENGTH_SHORT);
         p.setZ(p.getZ() + 1);
         saveStatusofP(p,"Z");
     }
 
     public void onClickA(View view){
         TextView input = (TextView) findViewById(R.id.a_textView);
-        displayToast("Increase "+ " Asr " + "Salah");
+        displayToast("Increase "+ " Asr " + "Salah",Toast.LENGTH_SHORT);
         p.setA(p.getA() + 1);
         saveStatusofP(p,"A");
     }
 
     public void onClickM(View view){
         TextView input = (TextView) findViewById(R.id.m_textView);
-        displayToast("Increase "+ " Magrib " + "Salah");
+        displayToast("Increase "+ " Magrib " + "Salah",Toast.LENGTH_SHORT);
         p.setM(p.getM() + 1);
         saveStatusofP(p,"M");
     }
 
     public void onClickI(View view){
         TextView input = (TextView) findViewById(R.id.i_textView);
-        displayToast("Increated "+ " Isha " + "Salah");
+        displayToast("Increated "+ " Isha " + "Salah",Toast.LENGTH_SHORT);
         p.setI(p.getI() + 1);
         saveStatusofP(p,"I");
     }
@@ -121,13 +132,15 @@ public class MainActivity extends AppCompatActivity {
         input.setText(p.getTimeAfterSubstractions(p.getI()));
 
         input = (TextView) findViewById(R.id.days_textView);
-        if(Integer.parseInt(input.getText().toString()) < Integer.parseInt(p.getInDays()) && Integer.parseInt(input.getText().toString()) != 0){
-            displayToast("Completed one DAY subscriting 1 from every Salah");
-        }
+        try {
+            if (Integer.parseInt(input.getText().toString()) < Integer.parseInt(p.getInDays()) && Integer.parseInt(input.getText().toString()) != 0) {
+                displayToast("Completed one DAY subscriting 1 from every Salah",Toast.LENGTH_LONG);
+            }
+        }catch (Exception e){}
         input.setText(p.getInDays());
     }
 
-    public void displayToast(String msg)
+    public void displayToast(String msg,int howLong)
     {
 
         // Inflating the layout for the toast
@@ -154,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 
         // Setting the duration of the Toast
-        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setDuration(howLong);
 
         // Setting the Inflated Layout to the Toast
         toast.setView(layout);
