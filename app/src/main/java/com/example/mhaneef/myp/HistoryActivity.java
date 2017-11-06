@@ -19,6 +19,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.mhaneef.myp.data.H;
+import com.example.mhaneef.myp.data.P;
 import com.example.mhaneef.myp.db.PDbHelper;
 
 import java.text.SimpleDateFormat;
@@ -123,6 +124,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             Button b = new Button(this);
             b.setText("Restore");
+            b.setId(h.ID.intValue());
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
@@ -268,14 +270,27 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
 
-    public void onClickRestoreFromHistory(View view){
+    public void onClickRestoreFromHistory(final View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setMessage("Are you sure, you want to restore from history ?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        builder.setMessage("Are you sure, you want to restore from history ?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                int id = view.getId();
+                H h = mDbHelper.getHistoryFromDBByID(id);
+                if(h != null){
+                    P p = new P(h.getF(),h.getZ(),h.getA(),h.getM(),h.getI());
+                    mDbHelper.saveStatusOfP(p);
+                    mDbHelper.saveHistory(p, h.getColumnChangedName());
+                }
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                        //saveStatusofP(p,columName);
+            }
+        }).show();
     }
 
 
-    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+    /*DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which){
@@ -289,7 +304,7 @@ public class HistoryActivity extends AppCompatActivity {
                     break;
             }
         }
-    };
+    };*/
 
 
 }

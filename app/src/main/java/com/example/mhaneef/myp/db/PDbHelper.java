@@ -52,6 +52,8 @@ public class PDbHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE30DAYS = "DELETE FROM " + PContract.HistoryEntry.TABLE_NAME   +
             " WHERE "+ PContract.HistoryEntry.COLUMN_NAME_MODIFIED ;
 
+    //private static final String SQL_SELECT_BY_ID = "Select "
+
     public PDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -108,6 +110,8 @@ public class PDbHelper extends SQLiteOpenHelper {
         );
 
 
+
+
         //List itemIds = new ArrayList<>();
         long itemId = 0;
         int count = cursor.getCount();
@@ -129,6 +133,65 @@ public class PDbHelper extends SQLiteOpenHelper {
         cursor.close();
         return listH;
     }
+
+
+
+    public H getHistoryFromDBByID(int id)
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                PContract.HistoryEntry._ID,
+                PContract.HistoryEntry.COLUMN_NAME_F,
+                PContract.HistoryEntry.COLUMN_NAME_Z,
+                PContract.HistoryEntry.COLUMN_NAME_A,
+                PContract.HistoryEntry.COLUMN_NAME_M,
+                PContract.HistoryEntry.COLUMN_NAME_I,
+                PContract.HistoryEntry.COLUMN_NAME_CHANNGED,
+                PContract.HistoryEntry.COLUMN_NAME_MODIFIED,
+        };
+        // Filter results WHERE "title" = 'My Title'
+        String selection =  PContract.HistoryEntry._ID + " = ?";
+        //String[] selectionArgs = { "2010-10-28 16:20:55" };
+        String[] selectionArgs = {id +""};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " DESC";
+        Cursor cursor = db.query(
+                PContract.HistoryEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+
+
+
+        //List itemIds = new ArrayList<>();
+        long itemId = 0;
+        int count = cursor.getCount();
+        H h = null;
+        ArrayList<H> listH = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            h = new H();
+            itemId = cursor.getLong(cursor.getColumnIndexOrThrow(PContract.PEntry._ID));
+            h.ID = itemId;
+            h.setF((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_F)));
+            h.setZ((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_Z)));
+            h.setA((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_A)));
+            h.setM((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_M)));
+            h.setI((int)cursor.getLong(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_I)));
+            h.setColumnChangedName(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_CHANNGED)));
+            h.setModifiedTime(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_MODIFIED))));
+            listH.add(h);
+        }
+        cursor.close();
+        return h;
+    }
+
 
     public P getPFromDB()
     {
