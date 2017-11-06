@@ -37,15 +37,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         //init
         mDbHelper = new PDbHelper(getBaseContext());
         p = loadStatusofP();
@@ -63,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         //save to DB;
         int db = mDbHelper.saveStatusOfP(p);
         mDbHelper.saveHistory(p, colName);
-        //mDbHelper.getHistoryFromDB();
 
         DisplayViews(p);
     }
@@ -76,62 +66,45 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
 
     public void onClickF(View view){
         TextView input = (TextView) findViewById(R.id.f_textView);
+        displayToast("Increase "+ " Fjr " + "Salah");
         p.setF(p.getF() + 1);
         saveStatusofP(p,"F");
-        displayToast("Increase "+ " Fjr " + "Salah");
     }
 
     public void onClickZ(View view){
         TextView input = (TextView) findViewById(R.id.z_textView);
+        displayToast("Increase "+ " Zhr " + "Salah");
         p.setZ(p.getZ() + 1);
         saveStatusofP(p,"Z");
-        displayToast("Increase "+ " Zhr " + "Salah");
     }
 
     public void onClickA(View view){
         TextView input = (TextView) findViewById(R.id.a_textView);
+        displayToast("Increase "+ " Asr " + "Salah");
         p.setA(p.getA() + 1);
         saveStatusofP(p,"A");
-        displayToast("Increase "+ " Asr " + "Salah");
     }
 
     public void onClickM(View view){
         TextView input = (TextView) findViewById(R.id.m_textView);
+        displayToast("Increase "+ " Magrib " + "Salah");
         p.setM(p.getM() + 1);
         saveStatusofP(p,"M");
-        displayToast("Increase "+ " Magrib " + "Salah");
     }
 
     public void onClickI(View view){
         TextView input = (TextView) findViewById(R.id.i_textView);
+        displayToast("Increated "+ " Isha " + "Salah");
         p.setI(p.getI() + 1);
         saveStatusofP(p,"I");
-        displayToast("Increated "+ " Isha " + "Salah");
     }
 
     public void DisplayViews(P p){
-        TextView input = (TextView) findViewById(R.id.days_textView);
-        input.setText(p.getInDays());
-        input = (TextView) findViewById(R.id.month_textView);
+
+        TextView input = (TextView) findViewById(R.id.month_textView);
         input.setText(p.getInMonth());
         input = (TextView) findViewById(R.id.Year_textView);
         input.setText(p.getInYears());
@@ -147,55 +120,47 @@ public class MainActivity extends AppCompatActivity {
         input = (TextView) findViewById(R.id.i_textView);
         input.setText(p.getTimeAfterSubstractions(p.getI()));
 
-
+        input = (TextView) findViewById(R.id.days_textView);
+        if(Integer.parseInt(input.getText().toString()) < Integer.parseInt(p.getInDays()) && Integer.parseInt(input.getText().toString()) != 0){
+            displayToast("Completed one DAY subscriting 1 from every Salah");
+        }
+        input.setText(p.getInDays());
     }
 
     public void displayToast(String msg)
     {
-
-
 
         // Inflating the layout for the toast
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.custom_toast,
                 (ViewGroup) findViewById(R.id.toast_custom));
 
-// Typecasting and finding the view in the inflated layout
+        // Typecasting and finding the view in the inflated layout
         TextView text = (TextView) layout.findViewById(R.id.tvtoast);
 
-// Setting the text to be displayed in the Toast
+        // Setting the text to be displayed in the Toast
         text.setText(msg);
-        text.setWidth(600);
-        text.setHeight(600);
+        text.setWidth(800);
+        text.setHeight(800);
 
 
-// Setting the color of the Text to be displayed in the toast
+        // Setting the color of the Text to be displayed in the toast
         text.setTextColor(Color.rgb(0, 132, 219));
 
-// Creating the Toast
+        // Creating the Toast
         Toast toast = new Toast(getApplicationContext());
 
-// Setting the position of the Toast to centre
+        // Setting the position of the Toast to centre
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 
-// Setting the duration of the Toast
+        // Setting the duration of the Toast
         toast.setDuration(Toast.LENGTH_LONG);
 
-// Setting the Inflated Layout to the Toast
+        // Setting the Inflated Layout to the Toast
         toast.setView(layout);
 
-// Showing the Toast
+        // Showing the Toast
         toast.show();
-
-
-
-
-        msg= "              " + msg + "                     ";
-        //Toast toast = Toast.makeText(getApplicationContext(),msg, Toast.LENGTH_LONG);
-        //toast.setGravity(Gravity.CENTER, 0, 0);
-
-        //toast.show();
-
     }
 
 
@@ -230,9 +195,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    //public void onClickCloseHistory(View view){
-       // setContentView(R.layout.activity_main);
-    //}
 
 }
