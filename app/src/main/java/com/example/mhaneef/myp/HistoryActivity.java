@@ -266,6 +266,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
     public void onClickCloseHistory(View view){
+        displayHistory();
         this.finish();
     }
 

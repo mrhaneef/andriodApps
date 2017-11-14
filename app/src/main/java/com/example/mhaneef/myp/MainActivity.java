@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected P p;
     PDbHelper mDbHelper;
+    boolean userconfim = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,32 +81,47 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickF(View view){
         TextView input = (TextView) findViewById(R.id.f_textView);
-        p.setF(p.getF() + 1);
-        displayDialogAndSave(view,p,"F");
+        if(displayDialogAndSave(view,p,"F"))
+        {
+            p.setF(p.getF() + 1);
+            saveStatusofP(p,"F");
+        }
     }
 
     public void onClickZ(View view){
         TextView input = (TextView) findViewById(R.id.z_textView);
-        p.setZ(p.getZ() + 1);
-        displayDialogAndSave(view,p,"Z");
+        if(displayDialogAndSave(view,p,"Z"))
+        {
+            p.setZ(p.getZ() + 1);
+            saveStatusofP(p,"Z");
+        }
     }
 
     public void onClickA(View view){
         TextView input = (TextView) findViewById(R.id.a_textView);
-        p.setA(p.getA() + 1);
-        displayDialogAndSave(view,p,"A");
+        if(displayDialogAndSave(view,p,"A"))
+        {
+            p.setA(p.getA() + 1);
+            saveStatusofP(p,"A");
+        }
     }
 
     public void onClickM(View view){
         TextView input = (TextView) findViewById(R.id.m_textView);
-        p.setM(p.getM() + 1);
-        displayDialogAndSave(view,p,"M");
+        if(displayDialogAndSave(view,p,"M"))
+        {
+            p.setM(p.getM() + 1);
+            saveStatusofP(p,"M");
+        }
     }
 
     public void onClickI(View view){
         TextView input = (TextView) findViewById(R.id.i_textView);
-        p.setI(p.getI() + 1);
-        displayDialogAndSave(view,p,"I");
+        if(displayDialogAndSave(view,p,"I"))
+        {
+            p.setI(p.getI() + 1);
+            saveStatusofP(p,"I");
+        }
     }
 
     public void DisplayViews(P p){
@@ -172,18 +188,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void displayDialogAndSave(View view, final P p, final String columName){
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(view.getContext());
-        builder.setMessage("Increase "+  columName + " S ?").setPositiveButton("Yes",  new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                saveStatusofP(p,columName);
-            }
-        }).setNegativeButton("No",  new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        //CODE HERE Cancel
+    public boolean displayDialogAndSave(View view, final P p, final String columName){
 
-                    }
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(view.getContext());
+
+        builder.setMessage("Increase " + columName + " S ?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                userconfim = true;
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //CODE HERE Cancel
+                userconfim = false;
+            }
         }).show();
+
+        return userconfim;
     }
 
 
@@ -218,6 +238,15 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onResume() {
+        Log.e("DEBUG", "onResume of LoginFragment");
+        p = loadStatusofP();
+        DisplayViews(p);
+        //displayToast("Backbutton pressed",Toast.LENGTH_LONG);
+        super.onResume();
     }
 
 
