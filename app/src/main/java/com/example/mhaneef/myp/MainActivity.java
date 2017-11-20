@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mhaneef.myp.data.Constants;
 import com.example.mhaneef.myp.data.P;
 import com.example.mhaneef.myp.db.PContract;
 import com.example.mhaneef.myp.db.PDbHelper;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         //init
         mDbHelper = new PDbHelper(getBaseContext());
         p = loadStatusofP();
-        DisplayViews(p);
+        UpdateDisplayViews(p);
     }
 
 
@@ -66,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
         //save to DB;
         int db = mDbHelper.saveStatusOfP(p);
         mDbHelper.saveHistory(p, colName);
-
-        DisplayViews(p);
     }
 
 
@@ -80,51 +79,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClickF(View view){
-        TextView input = (TextView) findViewById(R.id.f_textView);
-        if(displayDialogAndSave(view,p,"F"))
-        {
-            p.setF(p.getF() + 1);
-            saveStatusofP(p,"F");
-        }
+        displayDialogAndSave(view,p, Constants.PNames.F);
     }
 
     public void onClickZ(View view){
-        TextView input = (TextView) findViewById(R.id.z_textView);
-        if(displayDialogAndSave(view,p,"Z"))
-        {
-            p.setZ(p.getZ() + 1);
-            saveStatusofP(p,"Z");
-        }
+        displayDialogAndSave(view,p, Constants.PNames.Z);
     }
 
     public void onClickA(View view){
-        TextView input = (TextView) findViewById(R.id.a_textView);
-        if(displayDialogAndSave(view,p,"A"))
-        {
-            p.setA(p.getA() + 1);
-            saveStatusofP(p,"A");
-        }
+        displayDialogAndSave(view,p, Constants.PNames.A);
     }
 
     public void onClickM(View view){
-        TextView input = (TextView) findViewById(R.id.m_textView);
-        if(displayDialogAndSave(view,p,"M"))
-        {
-            p.setM(p.getM() + 1);
-            saveStatusofP(p,"M");
-        }
+        displayDialogAndSave(view,p, Constants.PNames.M);
     }
 
     public void onClickI(View view){
-        TextView input = (TextView) findViewById(R.id.i_textView);
-        if(displayDialogAndSave(view,p,"I"))
-        {
-            p.setI(p.getI() + 1);
-            saveStatusofP(p,"I");
-        }
+        displayDialogAndSave(view,p, Constants.PNames.I);
     }
 
-    public void DisplayViews(P p){
+    public void UpdateDisplayViews(P p){
 
         TextView input = (TextView) findViewById(R.id.month_textView);
         input.setText(p.getInMonth());
@@ -188,30 +162,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public boolean displayDialogAndSave(View view, final P p, final String columName){
-
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(view.getContext());
-
-        builder.setMessage("Increase " + columName + " S ?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                userconfim = true;
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //CODE HERE Cancel
-                userconfim = false;
-            }
-        }).show();
-
+    public boolean displayDialogAndSave(View view, final P p, final Constants.PNames pNames){
+        userconfim = false;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Increase").
+                setPositiveButton("Yes",new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        p.increaseByColumnName(pNames);
+                        saveStatusofP(p, pNames.toString());
+                        UpdateDisplayViews(p);
+                    }
+                }).
+                setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //userconfim = false;
+                    }
+                }).
+                show();
         return userconfim;
     }
 
 
-
-    public void onClickReset(P p)
-    {
-        p.reset(0,0,0,0,0);
-    }
 
     @Override
     protected void onDestroy() {
@@ -244,8 +217,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         Log.e("DEBUG", "onResume of LoginFragment");
         p = loadStatusofP();
-        DisplayViews(p);
-        //displayToast("Backbutton pressed",Toast.LENGTH_LONG);
+        UpdateDisplayViews(p);
         super.onResume();
     }
 

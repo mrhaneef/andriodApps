@@ -27,6 +27,13 @@ public class P {
     public void reset(int f,int z,int a,int m,int i){
         f=f;z=z;a=a;m=m;i=i;
     }
+
+    public void resetALL()
+    {
+        f=0;z=0;a=0;m=0;i=0;
+    }
+
+
     public int getF() {
         return f;
     }
@@ -100,6 +107,28 @@ public class P {
         String result = "";
         result = fromthisTime-Integer.parseInt(getInDays())==0?"0":fromthisTime-Integer.parseInt(getInDays())  + "";
         return result;
+    }
+
+    public void increaseByColumnName(Constants.PNames name)
+    {
+        switch (name)
+        {
+            case F:
+                this.setF(this.getF()+1);
+                break;
+            case Z:
+                this.setZ(this.getZ()+1);
+                break;
+            case A:
+                this.setA(this.getA()+1);
+                break;
+            case M:
+                this.setM(this.getM()+1);
+                break;
+            case I:
+                this.setI(this.getI()+1);
+                break;
+        }
     }
 
 
