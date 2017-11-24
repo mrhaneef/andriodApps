@@ -1,6 +1,6 @@
-package com.example.mhaneef.myp;
+package com.usvb.mobile.andriod.mhaneef.myp;
 
-import com.example.mhaneef.myp.data.P;
+import com.usvb.mobile.andriod.mhaneef.myp.data.P;
 
 import org.junit.Test;
 

@@ -1,11 +1,8 @@
-package com.example.mhaneef.myp;
+package com.usvb.mobile.andriod.mhaneef.myp.activity;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.icu.text.DateTimePatternGenerator;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,9 +15,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.mhaneef.myp.data.H;
-import com.example.mhaneef.myp.data.P;
-import com.example.mhaneef.myp.db.PDbHelper;
+import com.usvb.mobile.andriod.mhaneef.myp.R;
+import com.usvb.mobile.andriod.mhaneef.myp.data.H;
+import com.usvb.mobile.andriod.mhaneef.myp.data.P;
+import com.usvb.mobile.andriod.mhaneef.myp.db.PDbHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -266,7 +264,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
     public void onClickCloseHistory(View view){
-        displayHistory();
+        //displayHistory();
         this.finish();
     }
 

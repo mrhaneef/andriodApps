@@ -1,4 +1,4 @@
-package com.example.mhaneef.myp;
+package com.usvb.mobile.andriod.mhaneef.myp.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,22 +10,29 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mhaneef.myp.data.Constants;
-import com.example.mhaneef.myp.data.P;
-import com.example.mhaneef.myp.db.PDbHelper;
+
+import com.usvb.mobile.andriod.mhaneef.myp.R;
+import com.usvb.mobile.andriod.mhaneef.myp.data.Constants;
+import com.usvb.mobile.andriod.mhaneef.myp.data.P;
+import com.usvb.mobile.andriod.mhaneef.myp.data.Settings;
+import com.usvb.mobile.andriod.mhaneef.myp.db.PDbHelper;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
     protected P p;
     PDbHelper mDbHelper;
     boolean userconfim = false;
+    HashMap<String, Settings> currentSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             p = mDbHelper.getPFromDB();
             mDbHelper.getHistoryFromDB();
             mDbHelper.deleteHistoryOlderThen30Dya(30);
+            currentSettings = mDbHelper.getSettingsFromDB();
+
         }catch (Exception e){
             Log.i("ERROR",e.getMessage());
         }
@@ -153,24 +162,31 @@ public class MainActivity extends AppCompatActivity {
 
 
     public boolean displayDialogAndSave(View view, final P p, final Constants.PNames pNames){
-        userconfim = false;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Increase").
-                setPositiveButton("Yes",new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        p.increaseByColumnName(pNames);
-                        saveStatusofP(p, pNames.toString());
-                        UpdateDisplayViews(p);
-                    }
-                }).
-                setNegativeButton("No",new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //userconfim = false;
-                    }
-                }).
-                show();
+        if(currentSettings.get(Constants.SettingsNames.CONFIRMINCREASE.toString())== null
+                || currentSettings.get(Constants.SettingsNames.CONFIRMINCREASE.toString()).getSettingValue().equalsIgnoreCase("true")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Increase").
+                    setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            p.increaseByColumnName(pNames);
+                            saveStatusofP(p, pNames.toString());
+                            UpdateDisplayViews(p);
+                        }
+                    }).
+                    setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //userconfim = false;
+                        }
+                    }).
+                    show();
+        }else
+        {
+            p.increaseByColumnName(pNames);
+            saveStatusofP(p, pNames.toString());
+            UpdateDisplayViews(p);
+        }
         return userconfim;
     }
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.mhaneef.myp.HistoryActivity"
+    tools:context="com.usvb.mobile.andriod.mhaneef.myp.activity.HistoryActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/activity_history">
@@ -29,7 +29,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="8dp"
         android:scrollbars="none|vertical"
-        app:layout_constraintBottom_toTopOf="@+id/closeSettings"
+        app:layout_constraintBottom_toTopOf="@+id/resetSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -46,7 +46,7 @@
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbars="horizontal|vertical"
             android:stretchColumns="*"
-            app:layout_constraintBottom_toTopOf="@+id/closeSettings"
+            app:layout_constraintBottom_toTopOf="@+id/resetSettings"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/closeSettings"
+        android:id="@+id/resetSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="27dp"

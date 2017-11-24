@@ -1,18 +1,19 @@
-package com.example.mhaneef.myp.db;
+package com.usvb.mobile.andriod.mhaneef.myp.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.Settings;
-import android.support.constraint.solver.ArrayLinkedVariables;
+import android.util.Log;
 
-import com.example.mhaneef.myp.data.H;
-import com.example.mhaneef.myp.data.P;
+import com.usvb.mobile.andriod.mhaneef.myp.data.H;
+import com.usvb.mobile.andriod.mhaneef.myp.data.P;
+import com.usvb.mobile.andriod.mhaneef.myp.data.Settings;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 
 public class PDbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "Precords.db";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE IF NOT EXISTS " + PContract.PEntry.TABLE_NAME + " (" +
@@ -44,6 +45,15 @@ public class PDbHelper extends SQLiteOpenHelper {
                     PContract.HistoryEntry.COLUMN_NAME_CHANNGED + " TEXT," +
                     PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " timestamp not null default current_timestamp )";
 
+    private static final String SQL_CREATE_SETTINGS_ENTRIES =
+            "CREATE TABLE IF NOT EXISTS " + PContract.SettingsEntry.TABLE_NAME + " (" +
+                    PContract.SettingsEntry._ID + " INTEGER PRIMARY KEY," +
+                    PContract.SettingsEntry.COLUMN_NAME_SettingName + " TEXT," +
+                    PContract.SettingsEntry.COLUMN_NAME_SettingValue + " TEXT," +
+                    PContract.SettingsEntry.COLUMN_NAME_MODIFIED + " timestamp not null default current_timestamp )";
+
+
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + PContract.PEntry.TABLE_NAME;
     private static final String SQL_DELETE_HISTORY_ENTRIES =
@@ -62,6 +72,7 @@ public class PDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_HISTORY_ENTRIES);
         db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_SETTINGS_ENTRIES);
     }
 
     @Override
@@ -293,5 +304,94 @@ public class PDbHelper extends SQLiteOpenHelper {
         return 0;
     }
 
+
+    //---------------------- Settings -------------------
+    public HashMap<String, Settings> getSettingsFromDB()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] projection = {
+                PContract.SettingsEntry._ID,
+                PContract.SettingsEntry.COLUMN_NAME_SettingName,
+                PContract.SettingsEntry.COLUMN_NAME_SettingValue,
+                PContract.SettingsEntry.COLUMN_NAME_MODIFIED
+        };
+        // Filter results WHERE "title" = 'My Title'
+        String selection = PContract.SettingsEntry.COLUMN_NAME_MODIFIED + " < ?";
+        //String[] selectionArgs = { "2010-10-28 16:20:55" };
+        String[] selectionArgs = {"date('now','-30 days')"};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                PContract.HistoryEntry.COLUMN_NAME_MODIFIED + " DESC";
+        Cursor cursor = db.query(
+                PContract.SettingsEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+
+
+
+        //List itemIds = new ArrayList<>();
+        long itemId = 0;
+        int count = cursor.getCount();
+        Settings s;
+        HashMap<String, Settings> currentSettings = new HashMap<>();
+        while(cursor.moveToNext()) {
+            s = new Settings();
+            itemId = cursor.getLong(cursor.getColumnIndexOrThrow(PContract.PEntry._ID));
+            s.setID(itemId);
+            s.setSettingName(cursor.getString(cursor.getColumnIndexOrThrow(PContract.SettingsEntry.COLUMN_NAME_SettingName)));
+
+            s.setSettingValue(cursor.getString(cursor.getColumnIndexOrThrow(PContract.SettingsEntry.COLUMN_NAME_SettingValue)));
+            s.setModifiedTime(Timestamp.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(PContract.HistoryEntry.COLUMN_NAME_MODIFIED))));
+            currentSettings.put(s.getSettingName(),s);
+        }
+        cursor.close();
+        return currentSettings;
+    }
+
+    public int insertSettings(Settings s)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PContract.SettingsEntry.COLUMN_NAME_SettingName, s.getSettingName().toString());
+        values.put(PContract.SettingsEntry.COLUMN_NAME_SettingValue, s.getSettingValue());
+        db.insert(PContract.SettingsEntry.TABLE_NAME,null,values);
+        return 0;
+    }
+
+    public int updateSettings(Settings s)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PContract.SettingsEntry.COLUMN_NAME_SettingName, s.getSettingName().toString());
+        values.put(PContract.SettingsEntry.COLUMN_NAME_SettingValue, s.getSettingValue());
+
+        //db.insert(PContract.SettingsEntry.TABLE_NAME,null,values);
+
+        String selection = PContract.SettingsEntry.COLUMN_NAME_SettingName + " LIKE ?";
+        String[] selectionArgs = { s.getSettingName().toString() };
+        int count = 0;
+        try {
+            count = db.update(
+                    PContract.SettingsEntry.TABLE_NAME,
+                    values,
+                    selection,
+                    selectionArgs);
+            if(count == 0){
+                insertSettings(s);
+            }
+        }catch (Exception e)
+        {
+            Log.e("Error", e.getMessage());
+        }
+        return count;
+
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.example.mhaneef.myp.data;
+package com.usvb.mobile.andriod.mhaneef.myp.data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

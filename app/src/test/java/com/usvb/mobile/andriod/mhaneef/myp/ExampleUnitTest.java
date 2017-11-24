@@ -1,13 +1,12 @@
-package com.example.mhaneef.myp;
+package com.usvb.mobile.andriod.mhaneef.myp;
 
 import org.junit.Test;
 
-import java.sql.*;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

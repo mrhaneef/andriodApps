@@ -1,9 +1,6 @@
-package com.example.mhaneef.myp.data;
+package com.usvb.mobile.andriod.mhaneef.myp.data;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Timestamp;
-import java.util.Arrays;
 
 /**
  * Created by mhaneef on 10/16/2017.

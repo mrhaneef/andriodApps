@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.mhaneef.myp.MainActivity"
+    tools:context="com.usvb.mobile.andriod.mhaneef.myp.activity.MainActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/activity_main">
@@ -16,7 +16,6 @@
         android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="@android:dimen/app_icon_size"
         android:layout_marginStart="84dp"
-        android:layout_marginLeft="84dp"
         android:layout_marginTop="40dp"
         android:background="@color/colorPrimary"
         android:onClick="onClickF"

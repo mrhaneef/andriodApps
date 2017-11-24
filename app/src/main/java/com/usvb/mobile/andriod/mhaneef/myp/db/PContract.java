@@ -1,4 +1,4 @@
-package com.example.mhaneef.myp.db;
+package com.usvb.mobile.andriod.mhaneef.myp.db;
 
 import android.provider.BaseColumns;
 
@@ -30,6 +30,13 @@ public class PContract {
         public static final String COLUMN_NAME_M = "M";
         public static final String COLUMN_NAME_I = "I";
         public static final String COLUMN_NAME_CHANNGED = "CHANGED_COLUMN_NAME";
+        public static final String COLUMN_NAME_MODIFIED = "MODIFIED";
+    }
+
+    public static class SettingsEntry implements BaseColumns {
+        public static final String TABLE_NAME = "PSettings";
+        public static final String COLUMN_NAME_SettingName = "SettingName";
+        public static final String COLUMN_NAME_SettingValue = "SettingValue";
         public static final String COLUMN_NAME_MODIFIED = "MODIFIED";
     }
 
