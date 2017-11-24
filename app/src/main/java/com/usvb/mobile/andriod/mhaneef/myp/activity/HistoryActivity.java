@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -112,15 +113,21 @@ public class HistoryActivity extends AppCompatActivity {
             i.setPadding(5, 5, 5, 5);
             tr.addView(i);  // Adding textView to tablerow.
 
-            //Log.i("DEBUG", "TIME FORM DB:" + h.getModifiedTime());
-            Calendar cal = Calendar.getInstance();
-            TimeZone tz = cal.getTimeZone();
-            //Log.d("Time zone: ", tz.getDisplayName());
-            TextView t = new TextView(this);
+            Log.e("DEBUG", "TIME FORM DB:" + h.getModifiedTime() + " and long time : " + h.getModifiedTime().getTime());
 
-            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
-            df.setTimeZone(tz);
-            String dateString = df.format(h.getModifiedTime().getTime());
+            //LocalDateTime ld =
+            long timestamp = h.getModifiedTime().getTime();
+            Calendar calendar = Calendar.getInstance();
+            TimeZone tz = TimeZone.getDefault();
+            calendar.setTimeInMillis(timestamp);
+            calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.getTimeInMillis()));
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss aa");
+            Date currentTimeZone =  calendar.getTime();
+            String dateString = sdf.format(currentTimeZone);
+
+            Log.e("localTIME:", dateString);
+
+            TextView t = new TextView(this);
 
 
             t.setText(dateString);
