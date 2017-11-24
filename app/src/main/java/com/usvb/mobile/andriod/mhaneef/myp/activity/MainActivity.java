@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 if(currentSettings.get(Constants.SettingsNames.DAYCOMPLETEDISPLAY.toString())== null
                         || currentSettings.get(Constants.SettingsNames.DAYCOMPLETEDISPLAY.toString()).getSettingValue().equalsIgnoreCase("true"))
                 {
-                    displayToast("Completed one DAY subscriting 1 from every Salah", Toast.LENGTH_LONG);
+                    displayToast("Completed one DAY subscriting 1 from every Sawlah", Toast.LENGTH_LONG);
                 }
             }
         }catch (Exception e){}
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         if(currentSettings.get(Constants.SettingsNames.CONFIRMINCREASE.toString())== null
                 || currentSettings.get(Constants.SettingsNames.CONFIRMINCREASE.toString()).getSettingValue().equalsIgnoreCase("true")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Increase").
+            builder.setMessage("Increase " + Constants.sawlahDef.get(pNames) + " sawlah by one").
                     setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
