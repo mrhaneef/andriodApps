@@ -20,9 +20,10 @@ import com.usvb.mobile.andriod.mhaneef.myp.data.H;
 import com.usvb.mobile.andriod.mhaneef.myp.data.P;
 import com.usvb.mobile.andriod.mhaneef.myp.db.PDbHelper;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Calendar;
 import java.util.TimeZone;
 
 public class HistoryActivity extends AppCompatActivity {
@@ -111,10 +112,16 @@ public class HistoryActivity extends AppCompatActivity {
             i.setPadding(5, 5, 5, 5);
             tr.addView(i);  // Adding textView to tablerow.
 
+            //Log.i("DEBUG", "TIME FORM DB:" + h.getModifiedTime());
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+            //Log.d("Time zone: ", tz.getDisplayName());
             TextView t = new TextView(this);
-            SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd hh:mm aa",Locale.getDefault());
-            formatter.setTimeZone(TimeZone.getDefault());
-            String dateString = formatter.format(h.getModifiedTime());
+
+            SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
+            df.setTimeZone(tz);
+            String dateString = df.format(h.getModifiedTime().getTime());
+
 
             t.setText(dateString);
             t.setPadding(5, 5, 5, 5);
@@ -144,7 +151,7 @@ public class HistoryActivity extends AppCompatActivity {
 
             tr.addView(b);  // Adding textView to tablerow.
 
-            Log.i("INFO","ID " + h.ID + " sl "+ h.getModifiedTime() + " time " + h.getColumnChangedName());
+            Log.i("INFO","ID " + h.ID + " sl "+ dateString + " time " + h.getColumnChangedName());
 
             tl.addView(tr, new TableLayout.LayoutParams(
 

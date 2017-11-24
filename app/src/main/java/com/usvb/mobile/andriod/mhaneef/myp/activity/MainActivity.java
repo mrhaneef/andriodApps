@@ -118,7 +118,11 @@ public class MainActivity extends AppCompatActivity {
         input = (TextView) findViewById(R.id.days_textView);
         try {
             if (Integer.parseInt(input.getText().toString()) < Integer.parseInt(p.getInDays()) && Integer.parseInt(input.getText().toString()) != 0) {
-                displayToast("Completed one DAY subscriting 1 from every Salah",Toast.LENGTH_LONG);
+                if(currentSettings.get(Constants.SettingsNames.DAYCOMPLETEDISPLAY.toString())== null
+                        || currentSettings.get(Constants.SettingsNames.DAYCOMPLETEDISPLAY.toString()).getSettingValue().equalsIgnoreCase("true"))
+                {
+                    displayToast("Completed one DAY subscriting 1 from every Salah", Toast.LENGTH_LONG);
+                }
             }
         }catch (Exception e){}
         input.setText(p.getInDays());
@@ -215,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, HistoryActivity.class);
                 startActivity(intent);
                 //showHelp();
+                return true;
+            case R.id.action_about:
+                Intent intentAbout = new Intent(this, AboutActivity.class);
+                startActivity(intentAbout);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

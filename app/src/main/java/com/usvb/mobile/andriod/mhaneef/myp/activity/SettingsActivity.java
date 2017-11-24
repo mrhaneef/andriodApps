@@ -52,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void setSettingsFromDBandDisplay(HashMap<String,Settings> settingList){
         Settings s = settingList.get(Constants.SettingsNames.CONFIRMINCREASE.toString());
         Switch confirmToIncrease = (Switch) findViewById(R.id.ConfirmToIncrease);
-        Switch dayCompleteDisplay = (Switch) findViewById(R.id.ConfirmToIncrease);
+        Switch dayCompleteDisplay = (Switch) findViewById(R.id.dayCompleteDisplay);
 
         if(s==null){
             //First time calling
@@ -60,6 +60,11 @@ public class SettingsActivity extends AppCompatActivity {
             s.setSettingName(Constants.SettingsNames.CONFIRMINCREASE.toString());
             s.setSettingValue("true");
             int resultcount = mDbHelper.updateSettings(s);
+
+            s = new Settings();
+            s.setSettingName(Constants.SettingsNames.DAYCOMPLETEDISPLAY.toString());
+            s.setSettingValue("true");
+            resultcount = mDbHelper.updateSettings(s);
 
         }
         if(s!=null && s.getSettingValue().equalsIgnoreCase("true")){
@@ -105,13 +110,28 @@ public class SettingsActivity extends AppCompatActivity {
         int resultcount = mDbHelper.updateSettings(s);
     }
 
+    public void onClickDisplayToadDayComplete (View v){
+        Switch dayComplete = (Switch) findViewById(R.id.dayCompleteDisplay);
+        String confirm = "false";
+        if(dayComplete.isChecked()){
+            confirm = "true";
+        }
+
+        Settings s = new Settings();
+        s.setSettingName(Constants.SettingsNames.DAYCOMPLETEDISPLAY.toString());
+        s.setSettingValue(confirm);
+
+        int resultcount = mDbHelper.updateSettings(s);
+    }
+
+
     public void onClickResetAllValues(View view){
-        final P p = new P(0,0,0,0,0);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Reset All values. You sure cannot be undone!").
+        builder.setMessage("Reset All values. This cannot be undone!").
                 setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        final P p = new P(0,0 ,0,0,0);
                         mDbHelper.saveStatusOfP(p);
                         //p.increaseByColumnName(pNames);
                         //saveStatusofP(p, Constants.PNames.A);
